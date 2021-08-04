@@ -40,7 +40,17 @@ test("renders THREE error messages if user enters no values into any fields.", a
   const button = screen.getAllByTestId("submit");
   userEvent.click(button);
   //Assert
-  await waitFor(() => {});
+  await waitFor(() => {
+    expect(
+      screen.queryByText(/firstName must have at least 5 characters./i)
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/lastName is a required field./i)
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/email must be a valid email address./i)
+    ).toBeInTheDocument();
+  });
 });
 
 test("renders ONE error message if user enters a valid first name and last name but no email.", async () => {
