@@ -129,5 +129,34 @@ test("renders all fields text when all fields are submitted.", async () => {
   render(<ContactForm />);
 
   //Act
+  const firstNameInput = screen.getByLabelText("First Name*");
+  userEvent.type(firstNameInput, "Lloyd");
+
+  const lastNameInput = screen.getByLabelText("Last Name*");
+  userEvent.type(lastNameInput, "Christmas");
+
+  const emailInput = screen.getByLabelText("Email*");
+  userEvent.type(emailInput, "lloydchristmas@email.com");
+
+  const messageInput = screen.getByLabelText("Message");
+  userEvent.type(
+    messageInput,
+    "Austria! Well, then. G'day mate! Let's put another shrimp on the barbie!"
+  );
+
+  const buttonInput = screen.getByRole("button");
+  userEvent.click(buttonInput);
+
+  const firstNameSubmitted = await screen.getAllByText(/Lloyd/i);
+  const lastNameSubmitted = await screen.getAllByText(/Christmas/i);
+  const messageSubmitted = await screen.getAllByText(
+    "Austria! Well, then. G'day mate! Let's put another shrimp on the barbie!"
+  );
+  const emailSubmitted = await screen.getAllByText(/lloydchristmas@email.com/i);
   //Assert
+
+  expect(firstNameSubmitted).toBeVisible;
+  expect(lastNameSubmitted).toBeVisible;
+  expect(emailSubmitted).toBeVisible;
+  expect(messageSubmitted).toBeVisible;
 });
